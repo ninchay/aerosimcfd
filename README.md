@@ -82,3 +82,4 @@ can be rerun or refined without the app (the **Package** button bundles it with
 - Structure: one-way coupling, linear static, isotropic materials (composites as
   quasi-isotropic), no buckling, fatigue or ply failure.
 - Rotors, propellers and hover are not supported yet.
+# aerosimcfd
