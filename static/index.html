@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AeroSim Workbench</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 16%22%3E%3Cpath d=%22M8 1L15 14H1z%22 fill=%22%23f5b400%22/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/static/app.css">
+<script type="importmap">{"imports":{"three":"/static/vendor/three.module.min.js"}}</script>
+</head>
+<body>
+<header class="titlebar">
+  <div class="brand"><span class="logo">▲</span> AeroSim Workbench <span class="sub">CFD + FEA for aircraft · Gmsh · SU2 · CalculiX</span></div>
+  <div class="casename" id="caseTitle"></div>
+</header>
+
+<nav class="ribbon">
+  <div class="group">
+    <button id="bNew" title="New project">📄<span>New</span></button>
+    <div class="openbox">
+      <select id="caseSelect" title="Open project"></select>
+    </div>
+    <button id="bDelete" title="Delete project" class="small">🗑</button>
+    <label class="glabel">Project</label>
+  </div>
+  <div class="group">
+    <button id="bImport" title="Import CAD (STEP/IGES/STL) or airfoil .dat">📂<span>Import</span></button>
+    <input type="file" id="fileInput" hidden accept=".step,.stp,.iges,.igs,.brep,.stl,.dat,.txt">
+    <button data-run="mesh" title="Geometry → Mesh">▦<span>Generate Mesh</span></button>
+    <label class="glabel">Geometry / Mesh</label>
+  </div>
+  <div class="group">
+    <button data-run="results" class="primary" title="Run CFD (setup, solve, post-process)">⚡<span>Solve</span></button>
+    <button data-run="structure" title="Map air loads → CalculiX static structural">🏗<span>Structural</span></button>
+    <button data-run="" title="Bring every out-of-date step up to date">⟳<span>Update All</span></button>
+    <button id="bStop" title="Stop the running job" class="danger">■<span>Stop</span></button>
+    <label class="glabel">Solve</label>
+  </div>
+  <div class="group">
+    <button data-open="report" title="Open the report">📑<span>Report</span></button>
+    <button data-open="handoff" title="Download the rerunnable case package">📦<span>Package</span></button>
+    <label class="glabel">Output</label>
+  </div>
+  <div class="group view">
+    <button data-view="iso" title="Isometric">◆<span>Iso</span></button>
+    <button data-view="top" title="Top (+Z)">⬒<span>Top</span></button>
+    <button data-view="front" title="Front (−X)">⬓<span>Front</span></button>
+    <button data-view="side" title="Side (+Y)">◧<span>Side</span></button>
+    <button data-view="fit" title="Zoom to fit">⤢<span>Fit</span></button>
+    <button id="bEdges" title="Show mesh edges">▤<span>Edges</span></button>
+    <label class="glabel">View</label>
+  </div>
+</nav>
+
+<main class="layout">
+  <aside class="left">
+    <section class="panel outline">
+      <div class="phead">Outline</div>
+      <div class="pbody" id="tree"></div>
+    </section>
+    <div class="hsplit" data-split="details"></div>
+    <section class="panel details">
+      <div class="phead" id="detailsTitle">Details</div>
+      <div class="pbody" id="details"></div>
+    </section>
+  </aside>
+  <div class="vsplit"></div>
+  <section class="center">
+    <div class="panel graphics">
+      <div class="phead"><span id="gTitle">Graphics</span><span class="gtabs" id="gTabs"></span></div>
+      <div class="viewport" id="viewport">
+        <canvas id="three"></canvas>
+        <div id="imgView" class="imgview" hidden><img id="imgEl" alt=""></div>
+        <div id="svgView" class="svgview" hidden></div>
+        <div id="legend" class="legend" hidden></div>
+        <div id="vpInfo" class="vpinfo"></div>
+        <div id="vpEmpty" class="vpempty"></div>
+        <div class="triad" id="triad"></div>
+        <div class="vpctrl" id="vpCtrl" hidden></div>
+      </div>
+    </div>
+    <div class="hsplit" data-split="bottom"></div>
+    <div class="panel bottom">
+      <div class="phead tabs" id="bTabs">
+        <button data-tab="messages" class="on">Messages</button>
+        <button data-tab="solinfo">Solution Information</button>
+        <button data-tab="worksheet">Worksheet</button>
+        <span class="status" id="statusText"></span>
+      </div>
+      <div class="pbody tabbody">
+        <pre id="tab-messages" class="log"></pre>
+        <div id="tab-solinfo" hidden><canvas id="resChart"></canvas></div>
+        <div id="tab-worksheet" hidden class="worksheet"></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="modal" id="newModal" hidden>
+  <div class="dialog">
+    <div class="phead">New project</div>
+    <div class="dbody">
+      <label>Name <input id="newName" value="Wing study"></label>
+      <div class="tpl">
+        <label><input type="radio" name="tpl" value="wing" checked> <b>3D wing</b> – parametric NACA half-wing (CFD + structure)</label>
+        <label><input type="radio" name="tpl" value="airfoil"> <b>2D airfoil</b> – NACA section, RANS y+≈1</label>
+        <label><input type="radio" name="tpl" value="cad"> <b>Import CAD</b> – STEP / IGES / STL (or a .dat airfoil)</label>
+      </div>
+    </div>
+    <div class="dfoot"><button id="newCancel">Cancel</button><button id="newOk" class="primary">Create</button></div>
+  </div>
+</div>
+
+<script type="module" src="/static/app.js"></script>
+</body>
+</html>

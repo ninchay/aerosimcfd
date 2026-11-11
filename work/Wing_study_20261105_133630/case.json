@@ -1,0 +1,62 @@
+{
+  "name": "Wing study",
+  "created": "2026-11-05 13:36",
+  "geometry": {
+    "source": "naca_wing",
+    "naca": "2412",
+    "chord": 1.0,
+    "taper": 0.5,
+    "semispan": 2.0,
+    "sweep": 10.0,
+    "dihedral": 0.0,
+    "twist": 0.0,
+    "cad_file": "",
+    "units": "auto",
+    "half": "auto"
+  },
+  "conditions": {
+    "alt": 0.0,
+    "spec": "mach",
+    "mach": 0.3,
+    "speed": 50.0,
+    "aoa": 4.0,
+    "beta": 0.0,
+    "T_override": null,
+    "polar": ""
+  },
+  "references": {
+    "lref": null,
+    "sref": null,
+    "xmom": null
+  },
+  "mesh": {
+    "level": "auto",
+    "y1": null,
+    "wall_h": null,
+    "farfield": null,
+    "max_cells": 1500000.0
+  },
+  "solver": {
+    "solver": "auto",
+    "turb": "SA",
+    "wall_functions": "auto",
+    "iterations": null,
+    "resmin": null,
+    "cfl": null,
+    "cfl_max": null,
+    "threads": null
+  },
+  "structure": {
+    "enabled": true,
+    "model": "shell",
+    "thickness": 0.0015,
+    "material": "Al7075-T6",
+    "load_factor": 1.5,
+    "h": null,
+    "clamp_axis": "y",
+    "clamp_value": null,
+    "E": null,
+    "nu": null,
+    "allowable": null
+  }
+}

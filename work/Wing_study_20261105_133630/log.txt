@@ -1,0 +1,27 @@
+
+===== 13:38:25  Update: Geometry =====
+
+$ python3 $SKILL/make_naca_wing.py --naca 2412 --chord 1.0 --dat geom/foil.dat --taper 0.5 --semispan 2.0 --sweep 10.0 --dihedral 0.0 --twist 0.0 --step geom/part.step
+Traceback (most recent call last):
+  File "/app/skill/scripts/make_naca_wing.py", line 106, in <module>
+    main()
+  File "/app/skill/scripts/make_naca_wing.py", line 94, in main
+    make_wing_step(a.step, a.naca, a.chord, a.taper, a.semispan, a.sweep,
+  File "/app/skill/scripts/make_naca_wing.py", line 49, in make_wing_step
+    import gmsh
+  File "/usr/local/lib/python3.12/dist-packages/gmsh.py", line 92, in <module>
+    lib = CDLL(libpath)
+          ^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/ctypes/__init__.py", line 379, in __init__
+    self._handle = _dlopen(self._name, mode)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: libGL.so.1: cannot open shared object file: No such file or directory
+
+*** Geometry failed: command failed (exit 1): import gmsh
+  File "/usr/local/lib/python3.12/dist-packages/gmsh.py", line 92, in <module>
+    lib = CDLL(libpath)
+          ^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/ctypes/__init__.py", line 379, in __init__
+    self._handle = _dlopen(self._name, mode)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: libGL.so.1: cannot open shared object file: No such file or directory

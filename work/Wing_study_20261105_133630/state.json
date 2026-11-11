@@ -1,0 +1,12 @@
+{
+  "steps": {
+    "geometry": {
+      "status": "error",
+      "info": {},
+      "error": "command failed (exit 1): import gmsh\n  File \"/usr/local/lib/python3.12/dist-packages/gmsh.py\", line 92, in <module>\n    lib = CDLL(libpath)\n          ^^^^^^^^^^^^^\n  File \"/usr/lib/python3.12/ctypes/__init__.py\", line 379, in __init__\n    self._handle = _dlopen(self._name, mode)\n                   ^^^^^^^^^^^^^^^^^^^^^^^^^\nOSError: libGL.so.1: cannot open shared object file: No such file or directory",
+      "seconds": 0.3,
+      "finished": "13:38:26"
+    }
+  },
+  "hashes": {}
+}
