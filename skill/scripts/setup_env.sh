@@ -22,7 +22,7 @@ command -v ccx >/dev/null 2>&1 || need_apt="yes"
 if [ -n "$need_apt" ] && command -v apt-get >/dev/null 2>&1; then
   SUDO=""; [ "$(id -u)" != "0" ] && SUDO="sudo"
   $SUDO apt-get update -q >/dev/null 2>&1 || true
-  $SUDO apt-get install -y -q libglu1-mesa libxcursor1 libxinerama1 libxft2 calculix-ccx >/dev/null
+  $SUDO apt-get install -y -q libgl1 libglu1-mesa libxrender1 libxcursor1 libxinerama1 libxft2 calculix-ccx >/dev/null
 fi
 
 if [ ! -x "$TOOLS/su2/bin/SU2_CFD" ]; then
