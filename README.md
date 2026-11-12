@@ -23,9 +23,12 @@ Linux (Ubuntu/Debian) or Windows through **WSL2**. Python 3.9+.
 `./run.sh --host 0.0.0.0 --port 8050` makes it reachable from other machines on
 your network (there is no login, so only do this on a trusted network).
 
-macOS: the installer downloads the Linux SU2 build. Install SU2 for macOS from
-su2code.github.io, CalculiX (`ccx`) and Gmsh yourself, set `SU2_RUN` to the
-folder holding `SU2_CFD`, then `./run.sh`.
+macOS (Intel or Apple Silicon): the same two commands. `./install.sh` sets up
+Miniforge (unless you already have conda) with a `aerosim` environment holding
+the Python libraries, Gmsh and CalculiX from conda-forge, and downloads SU2's
+macOS build into `~/tools/su2`. SU2 publishes only an Intel Mac build, so on Apple
+Silicon the installer also installs Rosetta 2. `./run.sh` finds all of it by
+itself, so there is no environment to activate.
 
 ## Using it (same rhythm as ANSYS)
 
