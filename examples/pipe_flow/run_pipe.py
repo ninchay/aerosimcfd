@@ -4,12 +4,12 @@ Inlet = total conditions (p0, T0 of the M 0.5 state); outlet = static pressure.
 The outlet pressure is adjusted until the area-averaged inlet Mach number is 0.5
 (the friction pressure drop sets it), restarting from the previous solution.
 """
-import argparse, csv, os, subprocess
+import argparse, csv, os, shutil, subprocess
 ap = argparse.ArgumentParser()
 ap.add_argument("--L", type=float, default=2.2); ap.add_argument("--D", type=float, default=0.5)
 ap.add_argument("--mach", type=float, default=0.5)
 ap.add_argument("--p", type=float, default=101325.0); ap.add_argument("--T", type=float, default=288.15)
-ap.add_argument("--p_out", type=float, default=96700.0)
+ap.add_argument("--p_out", type=float, default=95400.0)
 ap.add_argument("--iters", type=int, default=4000); ap.add_argument("--rounds", type=int, default=4)
 ap.add_argument("--tol", type=float, default=0.002)
 a = ap.parse_args()
@@ -40,6 +40,7 @@ for k in range(-1, a.rounds):
     M_in, _ = inlet_mach()
     print(f"   inlet Mach {M_in:.4f}", flush=True)
     if k < 0:
+        shutil.copy("restart_flow.dat", "restart_warmup.dat")   # kept in case a round fails
         continue
     if abs(M_in - a.mach) < a.tol * a.mach:
         break

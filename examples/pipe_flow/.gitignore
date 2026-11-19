@@ -8,3 +8,4 @@ flow.vtu
 surface_flow.*
 restart_flow.csv
 results/
+restart_warmup.dat
