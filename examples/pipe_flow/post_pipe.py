@@ -14,8 +14,8 @@ f["U"] = f["Velocity"][:, 0]; f["Vr"] = f["Velocity"][:, 1]
 f["Speed"] = np.linalg.norm(f["Velocity"][:, :2], axis=1)
 
 # structured grid: columns of equal x, rows of increasing r
-xs = np.unique(np.round(P[:, 0], 9)); nx = len(xs); nr = len(P) // nx
-order = np.lexsort((P[:, 1], np.round(P[:, 0], 9)))
+xs = np.unique(np.round(P[:, 0], 6)); nx = len(xs); nr = len(P) // nx
+order = np.lexsort((P[:, 1], np.round(P[:, 0], 6)))
 X = P[order, 0].reshape(nx, nr); Y = P[order, 1].reshape(nx, nr)
 G = {k: (v[order].reshape(nx, nr) if v.ndim == 1 else None) for k, v in f.items()}
 R, L = Y.max(), X.max()

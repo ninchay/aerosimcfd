@@ -34,9 +34,10 @@ wall = geo.addLine(p3, p4); inlet = geo.addLine(p4, p1)
 loop = geo.addCurveLoop([axis, outlet, wall, inlet])
 surf = geo.addPlaneSurface([loop])
 geo.synchronize()
-# outlet runs axis->wall (cluster at end), inlet runs wall->axis (cluster at start)
-gmsh.model.mesh.setTransfiniteCurve(outlet, a.nr + 1, "Progression", r)
-gmsh.model.mesh.setTransfiniteCurve(inlet, a.nr + 1, "Progression", -r)
+# gmsh "Progression" r > 1 grows the cells along the curve direction; -r reverses it.
+# outlet runs axis->wall (smallest cell must be at its end), inlet runs wall->axis (at its start)
+gmsh.model.mesh.setTransfiniteCurve(outlet, a.nr + 1, "Progression", -r)
+gmsh.model.mesh.setTransfiniteCurve(inlet, a.nr + 1, "Progression", r)
 # mild streamwise clustering toward the inlet, where the boundary layer starts
 gmsh.model.mesh.setTransfiniteCurve(axis, a.nx + 1, "Progression", 1.01)
 gmsh.model.mesh.setTransfiniteCurve(wall, a.nx + 1, "Progression", -1.01)

@@ -9,3 +9,4 @@ surface_flow.*
 restart_flow.csv
 results/
 restart_warmup.dat
+old_bad_mesh/
