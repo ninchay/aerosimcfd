@@ -16,3 +16,20 @@ python3 post_pipe.py          # results/: contours, inlet→outlet plots, summar
 ```
 
 Options: `mesh_pipe.py --L 2.2 --D 0.5`, `run_pipe.py --mach 0.5 --L 2.2 --D 0.5`.
+
+## Result (inlet M 0.5, ISA sea level)
+
+Converged outlet pressure 100 383.6 Pa (the default `--p_out`, so a rerun starts there).
+
+| | Inlet (x = 0) | Outlet (x = 2.2 m) |
+|---|---|---|
+| Static pressure, area-avg | 101.30 kPa | 100.38 kPa (Δp = 914 Pa) |
+| Bulk velocity | 170.3 m/s | 171.8 m/s |
+| Centreline velocity | 170.5 m/s | 175.1 m/s |
+| Mach, mass-avg | 0.500 | 0.507 |
+| Mach, centreline | 0.501 | 0.515 |
+| Temperature | 288.1 K | 287.9 K |
+| Density | 1.225 kg/m³ | 1.214 kg/m³ |
+| Mass flow | 40.95 kg/s | 40.96 kg/s (0.04 % imbalance) |
+
+Wall y+ mean 0.86, max 1.6. Plots and `summary.json` are in `results/`.
