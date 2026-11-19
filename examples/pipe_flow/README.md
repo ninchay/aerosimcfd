@@ -13,6 +13,7 @@ flow: a straight pipe, L = 2.2 m, D = 0.5 m, air at ISA sea level, inlet M 0.5.
 python3 mesh_pipe.py          # pipe.su2 (220 × 90 quads, first cell 2 µm)
 python3 run_pipe.py           # SU2 runs; needs SU2_CFD on PATH (./install.sh)
 python3 post_pipe.py          # results/: contours, inlet→outlet plots, summary.json
+python3 export_excel.py       # results/pipe_results.xlsx with all the data
 ```
 
 Options: `mesh_pipe.py --L 2.2 --D 0.5`, `run_pipe.py --mach 0.5 --L 2.2 --D 0.5`.
