@@ -6,3 +6,5 @@ history.csv
 restart_flow.dat
 flow.vtu
 surface_flow.*
+restart_flow.csv
+results/
