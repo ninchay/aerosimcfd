@@ -85,7 +85,7 @@ python3 -m pip install --break-system-packages -q pyvista pandas 2>/dev/null || 
 # pyvista renders off-screen; on a headless server it may need these GL libraries
 if command -v apt-get >/dev/null 2>&1; then
   SUDO=""; [ "$(id -u)" != "0" ] && SUDO="sudo"
-  $SUDO apt-get install -y -q libgl1 libxrender1 >/dev/null 2>&1 || true
+  $SUDO apt-get install -y -q libgl1 libegl1 libxrender1 >/dev/null 2>&1 || true
 fi
 echo
 echo "Install complete. Start the app with:  ./run.sh   then open http://localhost:8050"

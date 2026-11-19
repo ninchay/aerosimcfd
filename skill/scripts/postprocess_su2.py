@@ -15,7 +15,7 @@ Examples
   python postprocess_su2.py work/wing --dim 3 --semispan 2 --chord-root 1 \
       --chord-tip 0.5 --sweep 25 --wall wing
 """
-import argparse, json, os
+import argparse, json, os, subprocess, sys
 import numpy as np
 import matplotlib
 matplotlib.use("Agg")
@@ -148,9 +148,25 @@ def post_2d(run, out, chord, wall):
 
 
 # ---------------------------------------------------------------- 3D
+def _can_render():
+    """Off-screen VTK rendering segfaults (uncatchable) on headless machines without
+    EGL/X libraries, so try it in a child process first."""
+    code = ("import pyvista as pv; p = pv.Plotter(off_screen=True, window_size=(64, 64)); "
+            "p.add_mesh(pv.Sphere()); p.screenshot(); p.close()")
+    try:
+        r = subprocess.run([sys.executable, "-c", code], capture_output=True, timeout=120)
+        return r.returncode == 0
+    except Exception:
+        return False
+
+
 def post_3d(run, out, a):
     import pyvista as pv
     pv.OFF_SCREEN = True
+    render = _can_render()
+    if not render:
+        print("warning: off-screen 3D rendering is not available (install libegl1 or an X server); "
+              "skipping the rendered surface-Cp and streamline images")
     surf = pv.read(os.path.join(run, "surface_flow.vtu"))
     vol = pv.read(os.path.join(run, "flow.vtu"))
     vol.point_data["Speed"] = np.linalg.norm(np.asarray(vol.point_data["Velocity"]), axis=1)
@@ -158,8 +174,7 @@ def post_3d(run, out, a):
     if "Pressure_Coefficient" not in surf.point_data and surf.cell_data:
         surf = surf.cell_data_to_point_data()
     b = a.semispan
-    shots = {}
-    for view, name in (("xy", "top"), ("yx", "bottom")):
+    for view, name in ((("xy", "top"), ("yx", "bottom")) if render else ()):
         p = pv.Plotter(off_screen=True, window_size=(1400, 900))
         p.add_mesh(surf, scalars="Pressure_Coefficient", cmap="RdBu_r",
                    scalar_bar_args=dict(title="Cp"))
@@ -170,6 +185,8 @@ def post_3d(run, out, a):
         p.screenshot(os.path.join(out, f"surface_cp_{name}.png")); p.close()
     # Iso view with streamlines
     try:
+        if not render:
+            raise RuntimeError("no off-screen rendering")
         bounds = surf.bounds
         c = a.chord_root
         # Rake upstream across the span, plus a dense rake near the tip so the
