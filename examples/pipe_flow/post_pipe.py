@@ -38,12 +38,15 @@ np.savetxt(os.path.join(out, "axial_profiles.csv"), np.c_[tuple(prof.values())],
            header=",".join(prof.keys()), comments="", fmt="%.6g")
 
 # ---- contours (mirror about the axis to show the whole pipe)
-def contour(key, label, fname, cmap="turbo", scale=1.0):
+def contour(key, label, fname, cmap="turbo", scale=1.0, core=False):
     Z = G[key] * scale
     fig, ax = plt.subplots(figsize=(13, 3.9))
-    lv = np.linspace(Z.min(), Z.max(), 61)
+    # core=True: colour range = top 15 % of the value, so the thin wall layer does not wash out the core
+    lo = 0.85 * Z.max() if core else Z.min()
+    lv = np.linspace(lo, Z.max(), 61)
+    Z = np.clip(Z, lo, None)
     for s in (1, -1):
-        cf = ax.contourf(X, s * Y, Z, levels=lv, cmap=cmap)
+        cf = ax.contourf(X, s * Y, Z, levels=lv, cmap=cmap, extend="min" if core else "neither")
     ax.plot([0, L], [R, R], "k", lw=2); ax.plot([0, L], [-R, -R], "k", lw=2)
     ax.plot([0, L], [0, 0], "k-.", lw=0.6, alpha=0.5)
     ax.annotate("INLET\nM 0.5", (0, 0), (-0.13, 0), ha="center", va="center", fontsize=9)
@@ -55,8 +58,8 @@ def contour(key, label, fname, cmap="turbo", scale=1.0):
     fig.tight_layout(); fig.savefig(os.path.join(out, fname), dpi=150); plt.close(fig)
 
 contour("Pressure", "Static pressure [kPa]", "contour_pressure.png", "viridis", 1e-3)
-contour("Speed", "Velocity magnitude [m/s]", "contour_velocity.png")
-contour("Mach", "Mach number", "contour_mach.png")
+contour("Speed", "Velocity magnitude [m/s]", "contour_velocity.png", core=True)
+contour("Mach", "Mach number", "contour_mach.png", core=True)
 
 # ---- inlet -> outlet line plots
 fig, ax = plt.subplots(3, 1, figsize=(10, 10), sharex=True)
